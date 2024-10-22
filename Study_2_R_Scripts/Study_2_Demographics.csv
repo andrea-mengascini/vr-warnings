@@ -1,0 +1,19 @@
+Participant number,Age,Sex,Vr Experience,Owner,warning 1,warning 2,warning 3,warning 4
+6,27,Male,Expert,yes,Shrink,Blurry,Red,pop-up
+7,36,Female,Novice,no,Red,Pop-up,Blurry,Shrink
+8,34,Male,Novice,no,Red,Blurry,Shrink,pop-up
+9,22,Male,Medium,no,Red,Shrink,Blurry,pop-up
+10,25,Female,Novice,NO,Red,Blurry,shrink,pop-up
+11,24,Female,Novice,no,red,Shrink,Blurry,pop-up
+12,20,Female,Novice,no,Red,Shrink,Blurry,pop-up
+13,34,Male,Novice,no,Red,Blurry,pop-up,shrink
+14,26,Male,Novice,no,Red,pop-up,Blurry,shrink
+15,20,Male,Expert,yes,Shrink,pop-up,Blurry,red
+17,24,Male,Novice,no,red,pop-up,Shrink,Blurry
+18,19,Male,Novice,no,red,Blurry,pop-up,shrink
+19,24,Male,Novice,no,red,pop-up,Blurry,shrink
+20,20,Male,Novice,no,red,pop-up,Blurry,shrink
+21,29,Female,Novice,no,Shrink,Blurry,red,pop-up
+23,22,Female,Novice,no,pop-up,Red,Shrink,Blurry
+24,25,Male,Medium,no,red,pop-up,Blurry,shrink
+25,25,Female,Novice,no,pop-up,Blurry,red,shrink
