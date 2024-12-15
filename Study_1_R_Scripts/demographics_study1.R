@@ -2,11 +2,11 @@
 library(dplyr) #### cave if also loading plyr!!!!!
 
 #Set working directory
-setwd("/Users/Walle/Documents/R_Scripts/ARSEC/Study_1")
+setwd("/Users/Account/Documents/R_Scripts/ARSEC/Study_1")
 
 ####Behavioral data####
 #loading csv-files
-demographics<- read.csv("/Users/Walle/Documents/R_Scripts/ARSEC/Study_1/DEMOGRAPHICS_included.csv", sep=",")
+demographics<- read.csv("/Users/Account/Documents/R_Scripts/ARSEC/Study_1/DEMOGRAPHICS_included.csv", sep=",")
 
 #exclude rows without a participant code
 demographics <- subset(demographics, demographics$code != "")

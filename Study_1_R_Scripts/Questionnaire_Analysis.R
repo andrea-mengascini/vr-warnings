@@ -1,5 +1,5 @@
 #Set working directory
-  setwd("/Users/Walle/Documents/R_Scripts/ARSEC/Study_1")
+  setwd("/Users/Account/Documents/R_Scripts/ARSEC/Study_1")
 
 ####Questionnaire Data####
 #load libraries
@@ -9,7 +9,7 @@
   library(splithalfr)
 
 #loading questionnaire data
-  Question_data<- read.csv("/Users/Walle/Documents/R_Scripts/ARSEC/Study_1/Questionnaire_data_2023_05_25.csv", sep=";")
+  Question_data<- read.csv("/Users/Account/Documents/R_Scripts/ARSEC/Study_1/Questionnaire_data_2023_05_25.csv", sep=";")
   
 #clean data set -> only columns, we need!
   #drop unnecessary columns

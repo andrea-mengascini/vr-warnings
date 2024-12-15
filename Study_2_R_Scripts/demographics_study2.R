@@ -2,11 +2,11 @@
 library(dplyr) #### cave if also loading plyr!!!!!
 
 #Set working directory
-setwd("/Users/Walle/Documents/R_Scripts/ARSEC/Study_2")
+setwd("/Users/Account/Documents/R_Scripts/ARSEC/Study_2")
 
 ####Behavioral data####
 #loading csv-files
-demographics<- read.csv("/Users/Walle/Documents/R_Scripts/ARSEC/Study_2/Study_2_Demographics.csv", sep=",")
+demographics<- read.csv("/Users/Account/Documents/R_Scripts/ARSEC/Study_2/Study_2_Demographics.csv", sep=",")
 
 #count how many participants are female, male, or diverse
 demographics %>% count(demographics$Sex, wt = NULL, sort = TRUE, name = NULL)

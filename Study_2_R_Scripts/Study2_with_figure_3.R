@@ -3,10 +3,10 @@ library(dplyr)#### cave if also loading plyr!!!!!
 library(readxl) 
 
 #Set working directory
-setwd("/Users/Walle/Documents/R_Scripts/ARSEC/Study_2")
+setwd("/Users/Account/Documents/R_Scripts/ARSEC/Study_2")
 
 ###Load behavioral_data####
-Behavioral_data<- read_excel("/Users/Walle/Documents/R_Scripts/ARSEC/Study_2/XRSEC_ Effectiveness.xlsx")
+Behavioral_data<- read_excel("/Users/Account/Documents/R_Scripts/ARSEC/Study_2/XRSEC_ Effectiveness.xlsx")
 
 #Comment Andrea:  
 #- We had a total of 23 participants.

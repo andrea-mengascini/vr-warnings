@@ -4,11 +4,11 @@ library(ggplot2)
 library(dplyr) #### cave if also loading plyr!!!!!
 
 #Set working directory
-setwd("/Users/Walle/Documents/R_Scripts/ARSEC/Study_1")
+setwd("/Users/Account/Documents/R_Scripts/ARSEC/Study_1")
 
 ####Behavioral data####
 #loading csv-files
-Behavioral_data<- read.csv("/Users/Walle/Documents/R_Scripts/ARSEC/Study_1/Behavioral_data_2023_05_25.csv", sep=";")
+Behavioral_data<- read.csv("/Users/Account/Documents/R_Scripts/ARSEC/Study_1/Behavioral_data_2023_05_25.csv", sep=";")
 #clean up empty rows in data table
 Behavioral_data <-subset(Behavioral_data, Behavioral_data$code != "")
 
