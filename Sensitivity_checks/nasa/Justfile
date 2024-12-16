@@ -1,0 +1,34 @@
+DOCUMENT_MAIN := "main"
+
+build:
+   #!/usr/bin/env -S R --no-save --no-restore --no-site-file --no-environ -f 
+   targets::tar_make()
+   warnings()
+
+clean:
+    rm -rf report/main_cache/
+    rm -rf _targets
+
+rebuild: clean build
+
+test:
+   #!/usr/bin/env -S R --no-save --no-restore --no-site-file --no-environ -f 
+   testthat::test_dir("tests")
+
+report:
+   #!/usr/bin/env -S R --no-save --no-restore --no-site-file --no-environ -f 
+   targets::tar_invalidate(names = starts_with("report"))
+   targets::tar_make()
+
+list-dependencies:
+   #!/usr/bin/env -S R --no-save --no-restore --no-site-file --no-environ -f 
+   targets::tar_renv(
+     extras = c()
+   )
+
+restore:
+   #!/usr/bin/env -S R --no-save --no-restore --no-site-file --no-environ -f 
+   if (!requireNamespace("renv", quietly = TRUE)) {
+       install.packages("renv", repos = "http://cran.rstudio.com/")
+   }
+   renv::restore()

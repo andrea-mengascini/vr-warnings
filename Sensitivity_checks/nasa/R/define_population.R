@@ -1,0 +1,55 @@
+define_population <- function() {
+  require("simstudy")
+
+  logger::log_info("Defining population.")
+
+  popParticipant <- defData(
+    varname = "nasa_participant_intercept",
+    dist = "normal",
+    formula = 3,
+    variance = 0.5,
+    id = "id_participant"
+  ) |>
+    defData(
+      varname = "warning_type",
+      dist = "trtAssign",
+      formula = "1;1;1;1"
+      #variance = "blur;red;scaledown;popup"
+    )
+
+  popWithinParticipant <- defDataAdd(
+    varname = "question",
+    dist = "trtAssign",
+    formula = "6;7;8;9"
+  ) |>
+    defDataAdd(
+      # We cant specify group names here unfortunately
+      varname = "object_id",
+      dist = "trtAssign",
+      formula = "1;1;1;1",
+      variance = "question"
+    ) |>
+    defDataAdd(
+      # We cant specify group names here unfortunately
+      varname = "question_id",
+      dist = "trtAssign",
+      formula = "1;1;1;1",
+      variance = "question;object_id"
+    ) |>
+    defDataAdd(
+      varname = "warning",
+      dist = "trtAssign",
+      # We use numbers to ease the calculation of the effect.
+      formula = "1;1",
+      variance = "id_participant"
+    ) |>
+    defDataAdd(
+      varname = "answer_r",
+      dist = "normal",
+      # Assume a warning effect only if warning is not `nowarning`.
+      formula = "nasa_participant_intercept + warning * ..effect_dist[warning_type] * ..expected_effect",
+      variance = 1
+    )
+
+  list(popParticipant, popWithinParticipant)
+}

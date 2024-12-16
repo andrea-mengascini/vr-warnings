@@ -1,5 +1,3 @@
-#Set working directory
-  setwd("/Users/Account/Documents/R_Scripts/ARSEC/Study_1")
 
 ####Questionnaire Data####
 #load libraries
@@ -9,7 +7,7 @@
   library(splithalfr)
 
 #loading questionnaire data
-  Question_data<- read.csv("/Users/Account/Documents/R_Scripts/ARSEC/Study_1/Questionnaire_data_2023_05_25.csv", sep=";")
+  Question_data<- read.csv("data/user_study_1_questionnaire.csv", sep=";")
   
 #clean data set -> only columns, we need!
   #drop unnecessary columns
@@ -35,8 +33,6 @@
                                           Question_data_tidy$question==8| 
                                           Question_data_tidy$question==9),6-Question_data_tidy$answer,Question_data_tidy$answer)
     
-
-
 #separate dataframes for SUS questionnaire, NASA questionnaire, as well as want question and safe question
       Question_t_SUS <-subset(Question_data_tidy,Question_data_tidy$scale == "SUS")
       Question_t_NASA <-subset(Question_data_tidy,Question_data_tidy$scale == "NASA")

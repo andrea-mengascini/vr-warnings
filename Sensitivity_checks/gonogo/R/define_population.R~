@@ -1,0 +1,44 @@
+define_population <- function() {
+  require("simstudy")
+
+  logger::log_info("Defining population.")
+
+  popParticipant <- defData(
+    varname = "gonogo_participant_intercept",
+    dist = "normal",
+    formula = 0,
+    variance = 0.1,
+    id = "id_participant"
+  )
+
+  popWithinParticipant <- defDataAdd(
+      # We cant specify object names here unfortunately
+      varname = "object",
+      dist = "trtAssign",
+      formula = "1;1;1;1",
+      variance = "id_participant"
+    ) |>
+    defDataAdd(
+      # We cant specify scene names here unfortunately
+      varname = "scene",
+      dist = "trtAssign",
+      formula = "1;1;1;1",
+      variance = "id_participant;object"
+    ) |>
+    defDataAdd(
+      # We cant specify warning names here unfortunately
+      # "nowarning;blur;red;scaledown;popup"
+      varname = "warning",
+      dist = "trtAssign",
+      formula = "1;1;1;1;1",
+      variance = "id_participant;object;scene"
+    ) |>
+    defDataAdd(
+      varname = "gonogo",
+      dist = "binary",
+      link = "logit"
+      formula = "0 + gonogo_participant_intercept + ..effect_dist[warning]",
+    )
+
+  list(popParticipant, popWithinParticipant)
+}

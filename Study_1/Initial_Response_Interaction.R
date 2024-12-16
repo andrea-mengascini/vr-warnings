@@ -3,12 +3,10 @@ library (data.table)
 library(ggplot2)
 library(dplyr) #### cave if also loading plyr!!!!!
 
-#Set working directory
-setwd("/Users/Account/Documents/R_Scripts/ARSEC/Study_1")
-
 ####Behavioral data####
 #loading csv-files
-Behavioral_data<- read.csv("/Users/Account/Documents/R_Scripts/ARSEC/Study_1/Behavioral_data_2023_05_25.csv", sep=";")
+Behavioral_data<- read.csv("data/user_study_1_interaction_times.csv", sep=";")
+
 #clean up empty rows in data table
 Behavioral_data <-subset(Behavioral_data, Behavioral_data$code != "")
 
@@ -21,9 +19,6 @@ Behavioral_data_tidy<-select(Behavioral_data,c("code","object","action","start_t
 
 setDT(Behavioral_data_tidy) #convert data into a data table
 
-Behavioral_data_tidy
-
-
 test <-Behavioral_data_tidy[,
                             list(
                               min_start=min(as.numeric(gsub(",",".",start_time))),#from inside to outside: changes comma to point, converts start time into a number, and looks for the smallest number in start_time
@@ -35,19 +30,11 @@ test <-Behavioral_data_tidy[,
 #calculate difference between endtime (maximum) and starttime (minimum)
 test$diff <- test$max_end - test$min_start
 
-
 'factorize warning'
 test$warning <-as.factor(test$warning)
-#ANOVA
-res.aov <- aov(diff ~ warning, data = test) 
-summary(res.aov)
-
-#calculate means. For SDs change "mean" to "sd"
-agg_mean<-aggregate(diff ~ warning, data=test, median)
-
 
 #Boxplot for warning
-pdf(file = "Rplots2.pdf",
+pdf(file = "Rplots3.pdf",
     width=6.5, height=4)
 
 plot(diff~warning,

@@ -1,0 +1,226 @@
+generate_sample <- function(def_population, expected_effect, sample_size = meta$sample_size) {
+  require("simstudy")
+
+  # Having `expected_effect` as environment variable here, will automaticall add
+  # the correct effect size in our sample.
+  #logger::log_info("Creating sample (N={sample_size}) with intervention effect {expected_effect}.")
+
+  # Access is by index, thus we need the right order here, compared to the
+  # levels below.
+  effect_dist <- c(
+    nowarning = 0,
+    blur = 1,
+    red = rnorm(1, -.5, .5),
+    scaledown = rnorm(1, 0, 1),
+    popup = rnorm(1, 2, 1)
+  ) * expected_effect
+
+  # Create level 2 / participant data
+  mydt <- genData(
+    n = sample_size,
+    dtDefs = def_population[[1]]
+  ) |>
+    # Create level 1 / trial data
+    #
+    # We have 80 trials per participant.
+    genCluster(
+      cLevelVar = "id_participant",
+      numIndsVar = 80,
+      level1ID = "id_trial"
+    )
+
+  # Generate level 1 data
+  ret <- addColumns(def_population[[2]], mydt)
+
+  # Convert some variables
+  ret[, warning := factor(warning, levels = 1:5, labels = c("nowarning", "blur", "red", "scaledown", "popup"))]
+  ret[, object := factor(object, levels = 1:4, labels = c("frame", "interactpen", "plantselect", "lightswitch"))]
+  ret[, scene := factor(scene, levels = 1:4, labels = c("party", "garage", "normal", "open"))]
+
+  ret
+}
+
+optimize_effect_size <- function(
+  def_population,
+  interv_eff_start,
+  interv_eff_end,
+  step_size,
+  min_iterations
+) {
+  # Make sure that start and end value are in the right direction at the
+  # beginning and large enough.
+  stopifnot(interv_eff_start < interv_eff_end - step_size)
+
+  logger::log_info("Optimizing effect size. Starting with [{interv_eff_start}, {interv_eff_end}], step size {step_size}.")
+
+  # First, we need to check, if even the end value has enough power.
+  # If not, there can't be a solution.
+  logger::log_info("Testing effect size end ({interv_eff_end}) for enough power.")
+  result <- test_power(def_population, interv_eff_end, min_iterations)
+  if (isFALSE(result[["sufficient_power"]])) {
+    logger::log_warn("Found not enough power with effect size end ({interv_eff_end}).")
+
+    return(
+      data.table(
+        #interv_effect_mean = def_population[varname == "mean_interv_effect", as.numeric(formula)],
+        #interv_effect_sd = def_population[varname == "sd_interv_effect", as.numeric(formula)],
+        #preop_sd = def_population[varname == "visus_preop", sqrt(as.numeric(variance))],
+        requ_effect_size = NA
+      )
+    )
+  }
+
+  # Otherwise, call the other function
+  ret <- optimize_effect_size_recursive(
+    def_population,
+    interv_eff_start,
+    interv_eff_end,
+    step_size,
+    result[["desired_iterations"]]
+  )
+  logger::log_info("Found enough power with effect size {ret}.")
+
+  data.table(
+    #interv_effect_mean = def_population[varname == "mean_interv_effect", as.numeric(formula)],
+    #interv_effect_sd = def_population[varname == "sd_interv_effect", as.numeric(formula)],
+    #preop_sd = def_population[varname == "visus_preop", sqrt(as.numeric(variance))],
+    requ_effect_size = ret
+  )
+}
+
+optimize_effect_size_recursive <- function(
+  def_population,
+  interv_eff_start,
+  interv_eff_end,
+  step_size,
+  min_iterations
+) {
+  # Make sure that start and end value are in the right direction.
+  stopifnot(interv_eff_start < interv_eff_end)
+
+  # In the end, start and end value are the same or have a smaller
+  # difference than step_size. In this case, we simply return the upper value.
+  #
+  # `interv_eff_end` must have enough power as in the main function
+  # (`optimize_effect_size`), we checked the final `interv_eff_end` for enough
+  # power.
+  if (interv_eff_end - interv_eff_start <= step_size) {
+    logger::log_info("Difference of start ({interv_eff_start}) and end ({interv_eff_end}) < step size ({step_size}).")
+    logger::log_info("Returning {interv_eff_end} as final intervention effect.")
+
+    return(interv_eff_end)
+  }
+
+  # If we are still here, we haven't finished calculation.
+  #
+  # Let's get the midpoint of our current [start, end] interval.
+  midpoint <- interv_eff_start + (interv_eff_end - interv_eff_start) / 2
+  logger::log_info("New midpoint calculated: {midpoint}.")
+
+  # If the midpoint has enough power, we need to check the lower half of our
+  # interval for the lowest effect size. If not, there should be enough power in
+  # the upper half of the interval
+  result <- test_power(def_population, midpoint, min_iterations)
+  if (isTRUE(result[["sufficient_power"]])) {
+    logger::log_info("Found enough power with new midpoint. Testing lower half [{interv_eff_start}, {midpoint}].")
+    return(optimize_effect_size_recursive(def_population, interv_eff_start, midpoint, step_size, result[["desired_iterations"]]))
+  } else {
+    logger::log_info("Found not enough power with new midpoint. Testing upper half [{midpoint}, {interv_eff_end}].")
+    return(optimize_effect_size_recursive(def_population, midpoint, interv_eff_end, step_size, result[["desired_iterations"]]))
+  }
+}
+
+fit_model <- function(mysample) {
+  glmmTMB::glmmTMB(
+    gonogo ~ 1 + warning + object + (1 | id_participant),
+    data = mysample,
+    family = binomial,
+    # Unsure what might be best here!
+    REML = FALSE
+  )
+}
+
+check_model_result <- function(mymodel) {
+  ## Not sure how to check model convergence with glmmTMB. ???
+  ## Sometimes model fitting does not converge. Return FALSE in this case.
+  ## We are overly conservative here.
+  #if (length(mymodel@optinfo$warnings) != 0 || lme4::isSingular(mymodel)) {
+  #  FALSE
+  #} else {
+  #  # Call the summary to get the p-value of the glmmTMB object. This is
+  #  # faster than the `parameters` package.
+  #  tmp <- summary(mymodel)$coefficients
+
+  #  # Check significance and return either TRUE/FALSE. We don't care about the
+  #  # direction.
+  #  tmp["warningblur", "Pr(>|t|)"] < .05
+  #}
+  tmp <- summary(mymodel)$coefficients$cond
+  tmp["warningblur", "Pr(>|z|)"] < .05
+}
+
+test_power <- function(
+  def_population,
+  interv_eff,
+  iterations,
+  desired_power = meta$desired_power,
+  power_uncertainty = meta$power_uncertainty,
+  previous_result = logical()
+) {
+  require("foreach")
+
+  logger::log_info("Testing model power with {iterations} iterations and effect size {interv_eff} ...")
+
+  # We create the sample, the model and evaluate it immediately. This way, we
+  # only need to store the result (a logical) instead of all samples, models,
+  # and results.
+  cl <- parallel::makeForkCluster()
+  doParallel::registerDoParallel(cl)
+  current_result <- foreach(i = seq_len(iterations - length(previous_result))) %dopar% {
+    generate_sample(def_population, interv_eff) |>
+      fit_model() |>
+      # Check whether the relevant parameter is significant and in the right
+      # direction.
+      check_model_result()
+  } |>
+    unlist()
+  parallel::stopCluster(cl)
+
+  # Combine with previous result.
+  current_result <- c(previous_result, current_result)
+
+  # Calcualte power and a 95% CI based on bootstrapping and simple quantiles.
+  ret <- replicate(
+    max(1000, iterations),
+    {
+      sample(current_result, replace = TRUE) |> mean()
+    }
+  )
+
+  ret <- list(
+    power = median(ret),
+    lb = quantile(ret, probs = .025, names = FALSE),
+    ub = quantile(ret, probs = .975, names = FALSE),
+    desired_iterations = iterations,
+    sufficient_power = median(ret) > desired_power
+  )
+
+  # Log the found power.
+  logger::log_info("... found power of {round(ret[[\"power\"]], 4)} 95% CI [{round(ret[[\"lb\"]], 4)}, {round(ret[[\"ub\"]], 4)}].")
+
+  # Increase the number of desired iterations if encloses the desired power. But
+  # only if the range is greater than `power_uncertainty`.
+  if (between(desired_power, ret[["lb"]], ret[["ub"]]) && (ret[["ub"]] - ret[["lb"]] >= power_uncertainty)) {
+    new_iterations <- iterations * 2
+    logger::log_info("Increasing iterations to {new_iterations}.")
+
+    # In this case, we need to recheck our calculations
+    ret <- test_power(
+      def_population, interv_eff, new_iterations, previous_result = current_result
+    )
+  }
+
+  # Calculate the power and check whether it is above `desired_power`. Return whether
+  # sufficient power was present or not.
+  ret
+}

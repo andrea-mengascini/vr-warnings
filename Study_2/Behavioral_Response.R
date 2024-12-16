@@ -2,20 +2,8 @@
 library(dplyr)#### cave if also loading plyr!!!!!
 library(readxl) 
 
-#Set working directory
-setwd("/Users/Account/Documents/R_Scripts/ARSEC/Study_2")
-
 ###Load behavioral_data####
-Behavioral_data<- read_excel("/Users/Account/Documents/R_Scripts/ARSEC/Study_2/XRSEC_ Effectiveness.xlsx")
-
-#Comment Andrea:  
-#- We had a total of 23 participants.
-#- 1 didn't show up, 1 didn't speak English
-#- We will pay 22 participant ( One was a CISPA HiWi (Ben's) and accepted to do the study without compensation )
-#- We moved 3 participants to the pilot. ( 20 "good" participants )
-#- Out of this 20 we will remove 2, since one knew what the study was about and one other clearly stated he had no experience in VR. (Number 22 was biased and need to be removed.
-#Number 16 is the one with no experience in VR.)
-#- This leave us with 18 participants data to analyze
+Behavioral_data<- read.csv("data/user_study_2_behavioral_response.csv", sep=";")
 
 #Exclude participant 16 and 22
 Behavioral_data_without<-subset(Behavioral_data, Behavioral_data$participant!= 22 & Behavioral_data$participant!= 16)
@@ -24,7 +12,6 @@ Behavioral_data_without<-subset(Behavioral_data, Behavioral_data$participant!= 2
 Behavioral_data_without$object<-as.factor(Behavioral_data_without$object)
 Behavioral_data_without$warning<-factor(Behavioral_data_without$warning, levels = c("no_warning", "Blur", "red","scaleDown","popup"))
 Behavioral_data_without$scene<-as.factor(Behavioral_data_without$scene)
-
 
 #Calculate the binary Go/noGo-Variable
 Behavioral_data_without$Gonogo<-ifelse(Behavioral_data_without$interacted==TRUE,1,0)

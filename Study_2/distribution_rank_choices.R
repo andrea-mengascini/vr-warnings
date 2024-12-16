@@ -2,12 +2,9 @@
 library(dplyr) #### cave if also loading plyr!!!!!
 library(reshape2)
 
-#Set working directory
-setwd("/Users/Account/Documents/R_Scripts/ARSEC/Study_2")
-
 ####Behavioral data####
 #loading csv-files
-data<- read.csv("/Users/Account/Documents/R_Scripts/ARSEC/Study_2/Study_2_Demographics.csv", sep=",")
+data<- read.csv("data/rank_choices.csv", sep=",")
 
 #keep only relevant columns
 warning<-select(data, c("Participant.number","warning.1","warning.2","warning.3","warning.4"))

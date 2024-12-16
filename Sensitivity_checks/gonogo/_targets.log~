@@ -1,0 +1,76 @@
+INFO [2024-04-10 16:57:42] Starting logger and targets pipeline.
+INFO [2024-04-10 16:57:42] Defining population.
+INFO [2024-04-10 16:57:42] Optimizing effect size. Starting with [0.05, 0.3], step size 0.005.
+INFO [2024-04-10 16:57:42] Testing effect size end (0.3) for enough power.
+INFO [2024-04-10 16:57:42] Testing model power with 200 iterations and effect size 0.3 ...
+INFO [2024-04-10 17:00:59] Starting logger and targets pipeline.
+INFO [2024-04-10 17:00:59] Optimizing effect size. Starting with [0.05, 0.3], step size 0.005.
+INFO [2024-04-10 17:00:59] Testing effect size end (0.3) for enough power.
+INFO [2024-04-10 17:00:59] Testing model power with 200 iterations and effect size 0.3 ...
+INFO [2024-04-10 17:06:56] Starting logger and targets pipeline.
+INFO [2024-04-10 17:06:56] Optimizing effect size. Starting with [0.05, 0.3], step size 0.005.
+INFO [2024-04-10 17:06:56] Testing effect size end (0.3) for enough power.
+INFO [2024-04-10 17:06:56] Testing model power with 200 iterations and effect size 0.3 ...
+INFO [2024-04-10 17:09:43] Starting logger and targets pipeline.
+INFO [2024-04-10 17:09:43] Optimizing effect size. Starting with [0.05, 0.3], step size 0.005.
+INFO [2024-04-10 17:09:43] Testing effect size end (0.3) for enough power.
+INFO [2024-04-10 17:09:43] Testing model power with 200 iterations and effect size 0.3 ...
+INFO [2024-04-10 17:10:50] Starting logger and targets pipeline.
+INFO [2024-04-10 17:10:50] Optimizing effect size. Starting with [0.05, 0.3], step size 0.005.
+INFO [2024-04-10 17:10:50] Testing effect size end (0.3) for enough power.
+INFO [2024-04-10 17:10:50] Testing model power with 200 iterations and effect size 0.3 ...
+INFO [2024-04-10 17:11:06] ... found power of 0.445 95% CI [0.375, 0.515].
+WARN [2024-04-10 17:11:06] Found not enough power with effect size end (0.3).
+INFO [2024-04-10 17:11:38] Starting logger and targets pipeline.
+INFO [2024-04-10 17:11:38] Optimizing effect size. Starting with [0.05, 2], step size 0.005.
+INFO [2024-04-10 17:11:38] Testing effect size end (2) for enough power.
+INFO [2024-04-10 17:11:39] Testing model power with 200 iterations and effect size 2 ...
+INFO [2024-04-10 17:11:55] ... found power of 1 95% CI [1, 1].
+INFO [2024-04-10 17:11:55] New midpoint calculated: 1.025.
+INFO [2024-04-10 17:11:55] Testing model power with 200 iterations and effect size 1.025 ...
+INFO [2024-04-10 17:12:11] ... found power of 1 95% CI [1, 1].
+INFO [2024-04-10 17:12:11] Found enough power with new midpoint. Testing lower half [0.05, 1.025].
+INFO [2024-04-10 17:12:11] New midpoint calculated: 0.5375.
+INFO [2024-04-10 17:12:11] Testing model power with 200 iterations and effect size 0.5375 ...
+INFO [2024-04-10 17:12:29] ... found power of 0.925 95% CI [0.885, 0.96].
+INFO [2024-04-10 17:12:29] Found enough power with new midpoint. Testing lower half [0.05, 0.5375].
+INFO [2024-04-10 17:12:29] New midpoint calculated: 0.29375.
+INFO [2024-04-10 17:12:29] Testing model power with 200 iterations and effect size 0.29375 ...
+INFO [2024-04-10 17:12:46] ... found power of 0.525 95% CI [0.455, 0.595].
+INFO [2024-04-10 17:12:46] Found not enough power with new midpoint. Testing upper half [0.29375, 0.5375].
+INFO [2024-04-10 17:12:46] New midpoint calculated: 0.415625.
+INFO [2024-04-10 17:12:46] Testing model power with 200 iterations and effect size 0.415625 ...
+INFO [2024-04-10 17:13:03] ... found power of 0.75 95% CI [0.69, 0.805].
+INFO [2024-04-10 17:13:03] Increasing iterations to 400.
+INFO [2024-04-10 17:13:03] Testing model power with 400 iterations and effect size 0.415625 ...
+INFO [2024-04-10 17:13:20] ... found power of 0.8375 95% CI [0.8, 0.8725].
+INFO [2024-04-10 17:13:20] Increasing iterations to 800.
+INFO [2024-04-10 17:13:20] Testing model power with 800 iterations and effect size 0.415625 ...
+INFO [2024-04-10 17:13:51] ... found power of 0.7862 95% CI [0.7575, 0.815].
+INFO [2024-04-10 17:13:51] Increasing iterations to 1600.
+INFO [2024-04-10 17:13:51] Testing model power with 1600 iterations and effect size 0.415625 ...
+INFO [2024-04-10 17:14:48] ... found power of 0.7594 95% CI [0.7381, 0.7794].
+INFO [2024-04-10 17:14:48] Found not enough power with new midpoint. Testing upper half [0.415625, 0.5375].
+INFO [2024-04-10 17:14:48] New midpoint calculated: 0.4765625.
+INFO [2024-04-10 17:14:48] Testing model power with 1600 iterations and effect size 0.4765625 ...
+INFO [2024-04-10 17:16:37] ... found power of 0.7594 95% CI [0.7387, 0.7794].
+INFO [2024-04-10 17:16:37] Found not enough power with new midpoint. Testing upper half [0.4765625, 0.5375].
+INFO [2024-04-10 17:16:37] New midpoint calculated: 0.50703125.
+INFO [2024-04-10 17:16:37] Testing model power with 1600 iterations and effect size 0.50703125 ...
+INFO [2024-04-10 17:18:26] ... found power of 0.8306 95% CI [0.8119, 0.8488].
+INFO [2024-04-10 17:18:26] Found enough power with new midpoint. Testing lower half [0.4765625, 0.50703125].
+INFO [2024-04-10 17:18:26] New midpoint calculated: 0.491796875.
+INFO [2024-04-10 17:18:26] Testing model power with 1600 iterations and effect size 0.491796875 ...
+INFO [2024-04-10 17:20:16] ... found power of 0.8219 95% CI [0.8044, 0.8406].
+INFO [2024-04-10 17:20:16] Found enough power with new midpoint. Testing lower half [0.4765625, 0.491796875].
+INFO [2024-04-10 17:20:16] New midpoint calculated: 0.4841796875.
+INFO [2024-04-10 17:20:16] Testing model power with 1600 iterations and effect size 0.4841796875 ...
+INFO [2024-04-10 17:22:06] ... found power of 0.7744 95% CI [0.755, 0.7944].
+INFO [2024-04-10 17:22:06] Found not enough power with new midpoint. Testing upper half [0.4841796875, 0.491796875].
+INFO [2024-04-10 17:22:06] New midpoint calculated: 0.48798828125.
+INFO [2024-04-10 17:22:06] Testing model power with 1600 iterations and effect size 0.48798828125 ...
+INFO [2024-04-10 17:23:54] ... found power of 0.8212 95% CI [0.8025, 0.8394].
+INFO [2024-04-10 17:23:54] Found enough power with new midpoint. Testing lower half [0.4841796875, 0.48798828125].
+INFO [2024-04-10 17:23:54] Difference of start (0.4841796875) and end (0.48798828125) < step size (0.005).
+INFO [2024-04-10 17:23:54] Returning 0.48798828125 as final intervention effect.
+INFO [2024-04-10 17:23:54] Found enough power with effect size 0.48798828125.
